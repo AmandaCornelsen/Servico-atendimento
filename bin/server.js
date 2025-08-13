@@ -9,6 +9,6 @@ console.log(`´Api executada na porta: ${port}`);
 
 function onlistening() {
     const addr = server.address();
-    const bind = typeof addr === 'string' ? 'pipe' + addr : 'port' + addr.port;
+    const bind = typeof addr === 'string' ? 'pipe' + addr : 'port ' + addr.port;
     console.log('Listing on ' + bind );
 }
