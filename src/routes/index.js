@@ -30,30 +30,30 @@ router.get("/", (req, res, next) => {
 //post
 router.post("/", (req, res, next) => {
   try {
-    const {nome, idade} = req.body
+    const { nome, idade } = req.body;
 
-    if(!nome || !idade) {
-        //status code 400: bad request
-        return res.status(400).json({
-            success:false,
-            message:"Favor enviar os campos: nome e idade"
-        })
+    if (!nome || !idade) {
+      //status code 400: bad request
+      return res.status(400).json({
+        success: false,
+        message: "Favor enviar os campos: nome e idade",
+      });
     }
 
     const newId = users.length + 1;
 
     const newUser = {
-        id: newId,
-        nome,
-        idade
-    }
-    users.push(newUser)
+      id: newId,
+      nome,
+      idade,
+    };
+    users.push(newUser);
     //status code 201: created
     res.status(201).json({
-        success: true,
-        message: "Criado com sucesso",
-        data: newId
-    })
+      success: true,
+      message: "Criado com sucesso",
+      data: newId,
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -61,6 +61,39 @@ router.post("/", (req, res, next) => {
       error: error.message,
     });
   }
+});
+
+router.put("/:id",
+  (req, res, next) => {
+    const id = parseInt(req.params.id);
+    const { nome, idade } = req.body;
+
+    if (!nome || !idade) {
+      //status code 400: bad request
+      return res.status(400).json({
+        success: false,
+        message: "Favor enviar os campos: nome e idade",
+      });
+    }
+    const userFind = users.findIndex(u => u.id == id)
+
+    if(userFind == -1){
+        return res.status(404).json({
+            success: false,
+            message: "usuário não encontrado!"
+        })
+    }
+
+    users[userFind] = {
+        id,
+        nome,
+        idade
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "Usuário atualizado com sucesso!",
+    })
 });
 
 module.exports = router;
