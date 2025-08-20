@@ -113,9 +113,7 @@ router.delete("/:id", (req, res, next) => {
 
   res.status(200).json({
     succes: true,
-    message: "Usuário deletado com sucesso!",
-    total: users.length,
-    data: users
+    message: "Usuário deletado com sucesso!"
   });
   } catch(error){
     res.status(500).json({
