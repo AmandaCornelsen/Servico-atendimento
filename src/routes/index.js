@@ -63,6 +63,7 @@ router.post("/", (req, res, next) => {
   }
 });
 
+//put
 router.put("/:id",
   (req, res, next) => {
     const id = parseInt(req.params.id);
@@ -94,6 +95,35 @@ router.put("/:id",
         success: true,
         message: "Usuário atualizado com sucesso!",
     })
+});
+
+//delete
+router.delete("/:id", (req, res, next) => {
+  const id = parseInt(req.params.id);
+
+  try{
+    const index = users.findIndex(user => user.id === id);
+    if (index === -1){
+    return res.status(404).json({
+    success: false,
+    message: "Usuário não encontrado!",
+    });
+  }
+  users.splice(index, 1);
+
+  res.status(200).json({
+    succes: true,
+    message: "Usuário deletado com sucesso!",
+    total: users.length,
+    data: users
+  });
+  } catch(error){
+    res.status(500).json({
+      success: false,
+      message: "Erro interno",
+      error: error.message,
+    });
+  }
 });
 
 module.exports = router;
